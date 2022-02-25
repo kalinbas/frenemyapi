@@ -20,7 +20,8 @@ def battle():
     if p1 != None and p2 != None:
         return calculate(p1, p2, steps, seed);
     else: 
-        abort(400);
+        return {'success': False,
+                'error': "Missing p1 or p2 parameter"}
 
 def calculate(p1, p2, steps, seed):
 
