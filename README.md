@@ -19,7 +19,7 @@ https://frenemyeth.herokuapp.com/api
 
 ### Example call:
 ```
-GET /battle?p1=test.eth&p2=0x7132f4b7f9E6C6721E1BcaD02f06D96c410f771a&steps=3
+GET /battle?p1=test.eth&p2=0x71c7656ec7ab88b098defb751b7401b5f6d8976f&steps=3
 ```
 
 ### Example output:
@@ -27,7 +27,7 @@ GET /battle?p1=test.eth&p2=0x7132f4b7f9E6C6721E1BcaD02f06D96c410f771a&steps=3
 {
 	"success": true,
 	"p1": "test.eth",
-	"p2": "0x7132f4b7f9E6C6721E1BcaD02f06D96c410f771a",
+	"p2": "0x71c7656ec7ab88b098defb751b7401b5f6d8976f",
     "winner1": true,
 	"steps": [
 		{
