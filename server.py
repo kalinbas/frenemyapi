@@ -1,6 +1,7 @@
 from flask import Flask, request, json, abort
 from flask_cors import CORS
 import time
+from metrics.hexspeak import HexSpeak
 
 app = Flask(__name__)
 CORS(app)
@@ -9,6 +10,13 @@ CORS(app)
 @app.route('/api', methods=['GET'])
 def root():
     return 'Frenemy API Server'
+
+@app.route('/api/test', methods=['GET'])
+def test():
+    p1 = request.args.get('p1')
+    p2 = request.args.get('p2')
+    hs = HexSpeak()
+    return hs.compare(p1, p2)
 
 @app.route('/api/battle', methods=['GET'])
 def battle():
