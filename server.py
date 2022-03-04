@@ -41,7 +41,10 @@ def battle():
 
     #TODO add top level result values
 
-    return jsonify(results)
+    return {'success': True,
+            'p1': p1,
+            'p2': p2,
+            'steps': results}
 
     if p1 != None and p2 != None:
         return calculate(p1, p2, steps, seed);
