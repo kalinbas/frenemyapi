@@ -19,10 +19,11 @@ def root():
 
 @app.route('/api/test', methods=['GET'])
 def test():
+    m = request.args.get('m', type = int)
     p1 = request.args.get('p1')
     p2 = request.args.get('p2')
-    hs = Balance()
-    return hs.compare(p1, p2)
+    metric = metrics[m]
+    return metric.compare(p1, p2)
 
 @app.route('/api/battle', methods=['GET'])
 def battle():
@@ -32,9 +33,13 @@ def battle():
     steps = request.args.get('steps', default = 3, type = int)
     seed = request.args.get('seed', default = int(time.time()), type = int)
 
+    #TODO validate parameters
+
     random.seed(seed)
     usedMetrics = random.sample(metrics, steps)
     results = list(map(lambda m: m.compare(p1, p2), usedMetrics))
+
+    #TODO add top level result values
 
     return jsonify(results)
 
