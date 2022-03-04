@@ -29,7 +29,7 @@ class HexSpeak(Metric):
         maxLength = 0
         maxWord = ""
         for w in HexSpeak.words:
-            if address.find(w) >= 0 and len(w) > maxLength:
+            if address.lower().find(w) >= 0 and len(w) > maxLength:
                 maxLength = len(w)
                 maxWord = w
         return maxLength, maxWord
