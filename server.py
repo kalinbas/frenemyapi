@@ -1,8 +1,13 @@
-from flask import Flask, request, json, abort
-from flask_cors import CORS
+import random
 import time
-from metrics.hexspeak import HexSpeak
-from metrics.balance import Balance
+
+from flask import Flask, request, json, abort, jsonify
+from flask_cors import CORS
+
+from metrics import hexspeak, balance
+
+#list of all used metrics
+metrics = [hexspeak.HexSpeak(), balance.Balance(), hexspeak.HexSpeak()]
 
 app = Flask(__name__)
 CORS(app)
@@ -21,10 +26,17 @@ def test():
 
 @app.route('/api/battle', methods=['GET'])
 def battle():
+
     p1 = request.args.get('p1')
     p2 = request.args.get('p2')
     steps = request.args.get('steps', default = 3, type = int)
     seed = request.args.get('seed', default = int(time.time()), type = int)
+
+    random.seed(seed)
+    usedMetrics = random.sample(metrics, steps)
+    results = list(map(lambda m: m.compare(p1, p2), usedMetrics))
+
+    return jsonify(results)
 
     if p1 != None and p2 != None:
         return calculate(p1, p2, steps, seed);
