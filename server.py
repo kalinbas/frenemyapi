@@ -1,10 +1,14 @@
 import random
 import time
+import re
+from web3 import Web3
 
 from flask import Flask, request, json, abort, jsonify
 from flask_cors import CORS
 
 from metrics import hexspeak, balance
+
+web3 = Web3(Web3.HTTPProvider('https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161'))
 
 #list of all used metrics
 metrics = [hexspeak.HexSpeak(), balance.Balance(), hexspeak.HexSpeak()]
@@ -27,58 +31,43 @@ def test():
 
 @app.route('/api/battle', methods=['GET'])
 def battle():
+    try:
+        p1 = request.args.get('p1')
+        p2 = request.args.get('p2')
 
-    p1 = request.args.get('p1')
-    p2 = request.args.get('p2')
-    steps = request.args.get('steps', default = 3, type = int)
-    seed = request.args.get('seed', default = int(time.time()), type = int)
+        steps = request.args.get('steps', default = 3, type = int)
+        seed = request.args.get('seed', default = int(time.time()), type = int)
 
-    #TODO validate parameters
+        if p1 == None or p2 == None:
+            return {'success': False, 'error': "Missing p1 or p2 parameter"}
 
-    random.seed(seed)
-    usedMetrics = random.sample(metrics, steps)
-    results = list(map(lambda m: m.compare(p1, p2), usedMetrics))
+        p1Address = resolveAddress(p1)
+        p2Address = resolveAddress(p2)
 
-    #TODO add top level result values
+        if p1Address == None:
+            return {'success': False, 'error': "Invalid address p1"}
+        if p2Address == None:
+            return {'success': False, 'error': "Invalid address p2"}
 
-    return {'success': True,
-            'p1': p1,
-            'p2': p2,
-            'steps': results}
 
-    if p1 != None and p2 != None:
-        return calculate(p1, p2, steps, seed);
-    else: 
-        return {'success': False,
-                'error': "Missing p1 or p2 parameter"}
+        if steps < 1 or steps > 5:
+            return {'success': False, 'error': "Invalid steps parameter must be between 1 and 5"}
 
-def calculate(p1, p2, steps, seed):
+        random.seed(seed)
+        usedMetrics = random.sample(metrics, steps)
+        results = list(map(lambda m: m.compare(web3, p1Address, p2Address), usedMetrics))
 
-    #TODO implement this logic ;)
+        return {'success': True,
+                'p1': p1,
+                'p2': p2,
+                'steps': results}
+    except Exception as e:
+        return {'success': False, 'error': str(e)}
 
-    return {'success': True,
-            'p1': p1,
-            'p2': p2,
-            'winner1': True,
-            'steps': [{
-                'winner1': True,
-                'topic': 'NFT Gains',
-                'summary': 'P1 hurts P2 with fireball',
-                'text1': 'P1 made 1.56 ETH on Opensea',
-                'text2': 'P2 lost 4.5 ETH flipping JPEGs',
-                }, {
-                'winner1': False,
-                'topic': 'Rugpull Participation',
-                'summary': 'P2 hurts P1 with mega-punch',
-                'text1': 'P1 lost 100 ETH to 3 rugpulls',
-                'text2': 'P2 never lost to anything we know about',
-                }, {
-                'winner1': True,
-                'topic': 'NFT Count',
-                'summary': 'P1 hurts P2 with super-flash',
-                'text1': 'P1 is a pro with 100 NFTs',
-                'text2': 'P2 is a noob with 2 NFTs',
-                }],
-            }
+
+def resolveAddress(ad):
+    if Web3.isAddress(ad):
+        return ad
+    return web3.ens.resolve(ad)
 
     

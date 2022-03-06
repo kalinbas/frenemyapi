@@ -13,7 +13,7 @@ class HexSpeak(Metric):
         else:
             return f'{p} contains no known hexspeak word'
 
-    def compare(self, p1, p2):
+    def compare(self, web3, p1, p2):
         c1, w1 = self.calculate(p1)
         c2, w2 = self.calculate(p2)
 
