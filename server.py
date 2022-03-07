@@ -28,7 +28,7 @@ def test():
     p1 = request.args.get('p1')
     p2 = request.args.get('p2')
     metric = metrics[m]
-    return metric.compare(p1, p2)
+    return metric.compare(web3, p1, p2)
 
 @app.route('/api/battle', methods=['GET'])
 def battle():

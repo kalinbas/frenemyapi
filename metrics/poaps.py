@@ -6,9 +6,9 @@ class Poaps(Metric):
 
     def getText(self, p, b):
         if b > 0:
-            return f'{p} is the bigger party animal, crashing {b} events..'
+            return f'{p} is a party animal, crashing {b} events..'
         else:
-            return ' Both of you are antisocial introverts :('
+            return f'{p} is an antisocial POAP introvert :('
 
 
     def compare(self, web3, p1, p2):

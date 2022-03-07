@@ -19,7 +19,7 @@ class TotalBluechips(Metric):
         if b > 0:
             return f'{p} has {b} bluechip NFTs.'
         else:
-            return ' Neither of you poor peasants have bluechip NFTs :('
+            return f'{p} is a poor peasant without bluechip NFTs :('
 
 
     def compare(self, web3, p1, p2):

@@ -8,7 +8,7 @@ class TotalNfts(Metric):
         if b > 0:
             return f'{p} has {b} NFTs..'
         else:
-            return ' Neither of you have NFTs :('
+            return f'{p} has not one single NFT :('
 
 
     def compare(self, web3, p1, p2):
