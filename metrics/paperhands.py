@@ -26,4 +26,4 @@ class Paperhands(Metric):
     def calculate(self, address):
         result = requests.get(Paperhands.url + address).json()
         paperhands = result['paperhandsReportSummary']['totalLossInEth']
-        return paperhands
+        return int(paperhands[0])
