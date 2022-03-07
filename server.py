@@ -75,6 +75,9 @@ def battle():
                     break
                 i+=1
 
+        if len(steps) < stepsCount:
+            return {'success': False, 'error': "Not enough metrics to decide battle"}
+
         return {'success': True,
                 'p1': p1,
                 'p2': p2,

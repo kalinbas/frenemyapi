@@ -16,8 +16,8 @@ class Paperhands(Metric):
         b2 = self.calculate(p2)
 
         return {
-            'loser1': b1 > b2,
-            'loser2': b2 > b1,
+            'winner1': b1 > b2,
+            'winner2': b2 > b1,
             'topic': 'ETH lost by paperhanding',
             'text1': self.getText(p1, b1),
             'text2': self.getText(p2, b2)
