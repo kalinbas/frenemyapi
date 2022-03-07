@@ -6,9 +6,9 @@ class Paperhands(Metric):
 
     def getText(self, p, b):
         if b > 0:
-            return f'{p} has bigger paperhands, losing {b} (so far...).'
+            return f'{p} has paperhands, losing {b} (so far...).'
         else:
-            return ' Neither of you have paperhands :)'
+            return f'{p} does not have paperhands :)'
 
 
     def compare(self, web3, p1, p2):

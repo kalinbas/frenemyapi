@@ -11,8 +11,11 @@ from metrics import hexspeak, balance, paperhands, totalbluechips, totalnfts, ga
 
 web3 = Web3(Web3.HTTPProvider('https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161'))
 
+# will be used later for other kind of battle step
+# commonnfts.Commonnfts(), commonpoaps.Commonpoaps() 
+
 #list of all used metrics
-metrics = [hexspeak.HexSpeak(), balance.Balance(), paperhands.Paperhands(), totalbluechips.TotalBluechips(), totalnfts.TotalNfts(), gas.Gas(), commonnfts.Commonnfts(), poaps.Poaps(), commonpoaps.Commonpoaps() ]
+metrics = [hexspeak.HexSpeak(), balance.Balance(), paperhands.Paperhands(), totalbluechips.TotalBluechips(), totalnfts.TotalNfts(), gas.Gas(), poaps.Poaps()]
 
 app = Flask(__name__)
 CORS(app)
@@ -27,8 +30,12 @@ def test():
     m = request.args.get('m', type = int)
     p1 = request.args.get('p1')
     p2 = request.args.get('p2')
+
+    p1Address = resolveAddress(p1)
+    p2Address = resolveAddress(p2)
+
     metric = metrics[m]
-    return metric.compare(web3, p1, p2)
+    return metric.compare(web3, p1Address, p2Address)
 
 @app.route('/api/battle', methods=['GET'])
 def battle():
@@ -36,7 +43,7 @@ def battle():
         p1 = request.args.get('p1')
         p2 = request.args.get('p2')
 
-        steps = request.args.get('steps', default = 3, type = int)
+        stepsCount = request.args.get('steps', default = 3, type = int)
         seed = request.args.get('seed', default = int(time.time()), type = int)
 
         if p1 == None or p2 == None:
@@ -50,18 +57,28 @@ def battle():
         if p2Address == None:
             return {'success': False, 'error': "Invalid address p2"}
 
-
-        if steps < 1 or steps > 5:
+        if stepsCount < 1 or stepsCount > 5:
             return {'success': False, 'error': "Invalid steps parameter must be between 1 and 5"}
 
         random.seed(seed)
-        usedMetrics = random.sample(metrics, steps)
-        results = list(map(lambda m: m.compare(web3, p1Address, p2Address), usedMetrics))
+        usedMetrics = random.sample(metrics, len(metrics))
+
+        steps = []
+        i = 0
+        while (i < len(usedMetrics)):
+            try:
+                result = usedMetrics[i].compare(web3, p1Address, p2Address)
+                if (result['winner1'] or result['winner2']):
+                    steps.append(result)
+            finally:
+                if len(steps) >= stepsCount:
+                    break
+                i+=1
 
         return {'success': True,
                 'p1': p1,
                 'p2': p2,
-                'steps': results}
+                'steps': steps}
     except Exception as e:
         return {'success': False, 'error': str(e)}
 
