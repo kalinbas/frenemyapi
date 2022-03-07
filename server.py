@@ -7,12 +7,12 @@ from web3 import Web3
 from flask import Flask, request, json, abort, jsonify
 from flask_cors import CORS
 
-from metrics import hexspeak, balance, paperhands, totalbluechips, totalnfts, gas, common
+from metrics import hexspeak, balance, paperhands, totalbluechips, totalnfts, gas, commonnfts, poaps, commonpoaps
 
 web3 = Web3(Web3.HTTPProvider('https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161'))
 
 #list of all used metrics
-metrics = [hexspeak.HexSpeak(), balance.Balance(), paperhands.Paperhands(), totalbluechips.TotalBluechips(), totalnfts.TotalNfts(), gas.Gas(), common.Common()]
+metrics = [hexspeak.HexSpeak(), balance.Balance(), paperhands.Paperhands(), totalbluechips.TotalBluechips(), totalnfts.TotalNfts(), gas.Gas(), commonnfts.Commonnfts(), poaps.Poaps(), commonpoaps.Commonpoaps() ]
 
 app = Flask(__name__)
 CORS(app)

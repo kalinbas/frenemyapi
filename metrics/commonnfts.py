@@ -1,7 +1,7 @@
 from .metric import Metric
 import requests
 
-class Common(Metric):
+class Commonnfts(Metric):
     url = "https://eth-mainnet.g.alchemy.com/v2/A5HAWbrqu_g8L0CL54zO9jhFfSSiDfhF/getNFTs?owner="
 
     def getText(self, p, b):
@@ -27,7 +27,7 @@ class Common(Metric):
         }
 
     def calculate(self, address):
-        result = requests.get(Common.url + address ).json()
+        result = requests.get(Commonnfts.url + address ).json()
         result = result['ownedNfts']
         result = [d['contract'] for d in result]
         result = [d['address'] for d in result]
