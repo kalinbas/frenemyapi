@@ -1,3 +1,4 @@
+import requests
 import random
 import time
 import re
@@ -6,12 +7,12 @@ from web3 import Web3
 from flask import Flask, request, json, abort, jsonify
 from flask_cors import CORS
 
-from metrics import hexspeak, balance
+from metrics import hexspeak, balance, paperhands, totalbluechips, totalnfts
 
 web3 = Web3(Web3.HTTPProvider('https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161'))
 
 #list of all used metrics
-metrics = [hexspeak.HexSpeak(), balance.Balance(), hexspeak.HexSpeak()]
+metrics = [hexspeak.HexSpeak(), balance.Balance(), paperhands.Paperhands(), totalbluechips.TotalBluechips(), totalnfts.TotalNfts()]
 
 app = Flask(__name__)
 CORS(app)

@@ -1,1 +1,1 @@
-__all__ = ["balance", "hexspeak"]
+__all__ = ["balance", "hexspeak", "paperhands", "totalbluechips", "totalnfts"]
