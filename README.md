@@ -28,19 +28,21 @@ GET /battle?p1=test.eth&p2=0x71c7656ec7ab88b098defb751b7401b5f6d8976f&steps=3
 	"success": true,
 	"p1": "test.eth",
 	"p2": "0x71c7656ec7ab88b098defb751b7401b5f6d8976f",
-    "winner1": true,
+	"winner1": true,
+	"winner2": false,
 	"steps": [
 		{
 			"winner1": true,
+			"winner2": false,
 			"topic": "NFT Gains",
-            "summary": "P1 hurts P2 with fireball"
+            "summary": "P1 hurts P2 with fireball",
 			"text1": "P1 made 1.56 ETH on Opensea",
 			"text2":"P2 lost 4.5 ETH flipping JPEGs"
         },
         {
 			"winner1": false,
 			"topic": "Rugpull Participation",
-			"summary": "P2 hurts P1 with mega-punch"
+			"summary": "P2 hurts P1 with mega-punch",
 			"text1": "P1 lost 100 ETH to 3 rugpulls",
 			"text2":"P2 never lost to anything we know about"
 
@@ -48,7 +50,7 @@ GET /battle?p1=test.eth&p2=0x71c7656ec7ab88b098defb751b7401b5f6d8976f&steps=3
         {
 			"winner1": true,
 			"topic": "NFT Count",
-			"summary": "P1 hurts P2 with super-flash"
+			"summary": "P1 hurts P2 with super-flash",
 			"text1": "P1 is a pro with 100 NFTs",
 			"text2":"P2 is a noob with 2 NFTs"
 
