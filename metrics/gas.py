@@ -30,5 +30,5 @@ class Gas(Metric):
     def calculate(self, address):
         result = requests.get(Gas.url1 + address + Gas.url2).json()
         result = result['result']
-        gas = reduce(operator.add, map(lambda r: int(r['gasUsed']) * int(r['gasPrice']), result))
+        gas = reduce(operator.add, map(lambda r: int(r['gasUsed']) * int(r['gasPrice']), result), 0)
         return gas / 10 ** 18
