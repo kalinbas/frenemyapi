@@ -10,7 +10,7 @@ class Gas(Metric):
 
     def getText(self, p, b):
         if b > 0:
-            return f'{p} is a pyromaniac spending {b} GAS..'
+            return f'{p} is a pyromaniac spending {b} ETH on gas.'
         else:
             return f'{p} is not using Ethereum. SHAME! >:('
 
@@ -30,5 +30,5 @@ class Gas(Metric):
     def calculate(self, address):
         result = requests.get(Gas.url1 + address + Gas.url2).json()
         result = result['result']
-        gas = reduce(operator.add, map(lambda r: int(r['gasUsed']), result))
-        return int(gas)
+        gas = reduce(operator.add, map(lambda r: int(r['gasUsed']) * int(r['gasPrice']), result))
+        return gas / 10 ** 18
