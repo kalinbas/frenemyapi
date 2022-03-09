@@ -68,12 +68,15 @@ def battle():
         i = 0
         while (i < len(usedMetrics)):
             try:
+                startTime = time.time()
                 result = usedMetrics[i].compare(web3, p1Address, p2Address)
+                endTime = time.time()
                 if (result['winner1'] or result['winner2']):
+                    result['time'] = endTime - startTime
                     steps.append(result)
             except Exception as e:
                 #do nothing - log error
-                logging.exception(e)
+                logging.error(e)
             finally:
                 if len(steps) >= stepsCount:
                     break

@@ -1,4 +1,7 @@
+from ast import operator
+from functools import reduce
 from .metric import Metric
+import operator
 import requests
 
 class Gas(Metric):
@@ -7,7 +10,7 @@ class Gas(Metric):
 
     def getText(self, p, b):
         if b > 0:
-            return f'{p} is a pyromaniac spending {b} WEI..'
+            return f'{p} is a pyromaniac spending {b} GAS..'
         else:
             return f'{p} is not using Ethereum. SHAME! >:('
 
@@ -27,10 +30,5 @@ class Gas(Metric):
     def calculate(self, address):
         result = requests.get(Gas.url1 + address + Gas.url2).json()
         result = result['result']
-
-        if len(result) == 0: 
-            return 0
-
-        gas = [d['cumulativeGasUsed'] for d in result]
-        # TODO must make sum of all transactions (and do paging) - probably to slow to do
-        return int(gas[0])
+        gas = reduce(operator.add, map(lambda r: int(r['gasUsed']), result))
+        return int(gas)
