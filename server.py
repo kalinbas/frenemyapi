@@ -1,6 +1,7 @@
 import requests
 import random
 import time
+import logging
 import re
 from web3 import Web3
 
@@ -70,6 +71,9 @@ def battle():
                 result = usedMetrics[i].compare(web3, p1Address, p2Address)
                 if (result['winner1'] or result['winner2']):
                     steps.append(result)
+            except Exception as e:
+                #do nothing - log error
+                logging.exception(e)
             finally:
                 if len(steps) >= stepsCount:
                     break
